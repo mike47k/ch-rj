@@ -8,7 +8,6 @@ import Menu from '@mui/material/Menu'
 import MenuIcon from '@mui/icons-material/Menu'
 import Container from '@mui/material/Container'
 import Button from '@mui/material/Button'
-import Tooltip from '@mui/material/Tooltip'
 import MenuItem from '@mui/material/MenuItem'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import CartWidget from '../CartWidget/CartWidget'
@@ -16,8 +15,10 @@ import { Stack } from '@mui/material'
 import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined'
 import Avatar from '@mui/material/Avatar'
 import LogoLM from '../../assets/logo.jpeg'
+import { Link } from 'react-router-dom'
+import './style.css'
+import { CATEGORIA } from '../../Data/MockData'
 
-const categorias = ['Ropa', 'Otro']
 const settings = ['Perfil', 'Cerrar Sesion']
 
 const darkTheme = createTheme({
@@ -63,12 +64,14 @@ function Navbar () {
         <Container maxWidth='xl'>
           <Toolbar disableGutters sx={{ display: 'flex', justifyContent: { xs: 'space-between', md: 'initial' } }}>
 
-            <Avatar
-              variant='square'
-              alt='Remy Sharp'
-              src={LogoLM}
-              sx={{ width: 42, height: 42, marginRight: 2, order: { xs: '2', md: 'initial' } }}
-            />
+            <Link to='/'>
+              <Avatar
+                variant='square'
+                alt='Remy Sharp'
+                src={LogoLM}
+                sx={{ width: 42, height: 42, marginRight: 2, order: { xs: '2', md: 'initial' } }}
+              />
+            </Link>
 
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
               <Button
@@ -92,8 +95,11 @@ function Navbar () {
                 }}
               >
 
-                {categorias.map((categoria) => (
-                  <MenuItem key={categoria} onClick={handleClose}>{categoria}</MenuItem>
+                {CATEGORIA.map((categoria) => (
+                  <Link to={`/categoria/${categoria.id}`} key={categoria.id} className='link'>
+                    <MenuItem onClick={handleClose}>{categoria.categoria}</MenuItem>
+
+                  </Link>
 
                 ))}
 
@@ -129,9 +135,9 @@ function Navbar () {
                 }}
               >
                 <MenuItem>Categorias: </MenuItem>
-                {categorias.map((page) => (
-                  <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Typography textAlign='center'>{page}</Typography>
+                {CATEGORIA.map((page) => (
+                  <MenuItem key={page.id} onClick={handleCloseNavMenu}>
+                    <Typography textAlign='center'>{page.categoria}</Typography>
                   </MenuItem>
                 ))}
               </Menu>
@@ -139,11 +145,9 @@ function Navbar () {
 
             <Stack direction='row' spacing={2} sx={{ order: { xs: '3', md: 'initial' } }}>
               <Box sx={{ flexGrow: 0 }}>
-                <Tooltip title='Open settings'>
-                  <IconButton onClick={handleOpenUserMenu}>
-                    <PermIdentityOutlinedIcon />
-                  </IconButton>
-                </Tooltip>
+                <IconButton onClick={handleOpenUserMenu}>
+                  <PermIdentityOutlinedIcon />
+                </IconButton>
                 <Menu
                   sx={{ mt: '45px' }}
                   id='menu-appbar'
