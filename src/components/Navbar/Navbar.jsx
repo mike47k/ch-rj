@@ -19,7 +19,7 @@ import { Link } from 'react-router-dom'
 import './style.css'
 import { CATEGORIA } from '../../Data/MockData'
 
-const settings = ['Perfil', 'Cerrar Sesion']
+const settings = [{ name: 'Mis ordenes', link: 'mis-ordenes' }, { name: 'Cerrar Sesion', link: 'cerrar-sesion' }]
 
 const darkTheme = createTheme({
   palette: {
@@ -165,9 +165,11 @@ function Navbar () {
                   onClose={handleCloseUserMenu}
                 >
                   {settings.map((setting) => (
-                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                      <Typography textAlign='center'>{setting}</Typography>
-                    </MenuItem>
+
+                    <Link to={`/${setting.link}`} key={setting.name} className='link'>
+                      <MenuItem onClick={handleCloseUserMenu}>{setting.name}</MenuItem>
+
+                    </Link>
                   ))}
                 </Menu>
               </Box>

@@ -1,24 +1,20 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined'
 import IconButton from '@mui/material/IconButton'
 import Badge from '@mui/material/Badge'
-import { styled } from '@mui/material/styles'
-
-const StyledBadge = styled(Badge)(({ theme }) => ({
-  '& .MuiBadge-badge': {
-    right: -3,
-    top: 3,
-    // border: `2px solid ${theme.palette.background.paper}`,
-    padding: '0 4px'
-  }
-}))
+import { CartContext } from '../../context/CartContext'
+import { Link } from 'react-router-dom'
 
 export default function CartWidget () {
+  const { totalItems } = useContext(CartContext)
   return (
-    <IconButton aria-label='shoppingcart'>
-      <StyledBadge badgeContent={4} color='primary'>
-        <ShoppingCartOutlinedIcon />
-      </StyledBadge>
-    </IconButton>
+    <Link to='/carrito'>
+
+      <IconButton>
+        <Badge badgeContent={totalItems()} color='primary'>
+          <ShoppingCartOutlinedIcon />
+        </Badge>
+      </IconButton>
+    </Link>
   )
 }

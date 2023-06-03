@@ -1,11 +1,25 @@
 import { Box, Button, Grid, Paper, Rating, Stack, Typography } from '@mui/material'
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import ItemCount from '../ItemCount/ItemCount'
 import { useNavigate } from 'react-router-dom'
 import { CategoryDetail } from '../CategoryDetail/CategoryDetail'
+import { CartContext } from '../../context/CartContext'
 
 export default function ItemDetail ({ itemDetail }) {
   const navigate = useNavigate()
+  const { agregarAlCarrito, isInCart, getItem } = useContext(CartContext)
+  const [cant, setCant] = React.useState(0)
+  const onAdd = () => {
+    agregarAlCarrito(itemDetail, 1)
+  }
+  useEffect(() => {
+    if (isInCart(itemDetail.id)) {
+      const i = getItem(itemDetail.id)
+      console.log(i)
+      console.log(cant)
+      setCant(i.cantidad)
+    }
+  }, [onAdd])
 
   const handleGoBack = () => {
     navigate(-1)
@@ -49,7 +63,7 @@ export default function ItemDetail ({ itemDetail }) {
         <CategoryDetail idCategory={itemDetail.category} />
         <Stack mt={3} mb={5} spacing={2}>
 
-          <ItemCount stock={itemDetail.stock} initial={1} />
+          <ItemCount onAdd={onAdd} stock={itemDetail.stock} cant={cant} />
 
         </Stack>
         <Button
@@ -61,6 +75,5 @@ export default function ItemDetail ({ itemDetail }) {
       </Grid>
     </Grid>
 
-  // </Paper>
   )
 }
